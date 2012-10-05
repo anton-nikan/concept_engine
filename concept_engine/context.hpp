@@ -38,14 +38,4 @@ public:
     { out << std::setw(x.position_.value()); return out; }
 };
 
-// learning to draw stuff
-template<typename T>
-void draw(const T& x, render_stream_t& stream, context_t context)
-{ stream << context << x << std::endl; }
-
-// learning to draw batches
-void draw(const std::ostringstream& in, render_stream_t& out, context_t context)
-{ out << context << in.str() << std::endl; }
-
-
 #endif

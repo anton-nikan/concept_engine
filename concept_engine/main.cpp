@@ -14,13 +14,18 @@
 // 4. Context always copies along drawing sequence.
 // 5. Operation is performed over the context (operator +) to move to more local context even if nothing has changed.
 // 6. Render stream gets filled with anonymous calls from objects and contexts on every loop.
-// 7. Complex dependencies between elements (will be hard to put separate).
+// 7. Complex dependencies between elements (will be hard to put apart).
 
 
 #include <sstream>
 #include <thread>
 #include "sprite.hpp"
 #include "scene.hpp"
+
+// learning to draw batches
+void draw(const std::ostringstream& in, render_stream_t& out, context_t context)
+{ out << context << in.str() << std::endl; }
+
 
 scene_t scene;
 
