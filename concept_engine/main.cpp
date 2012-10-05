@@ -14,116 +14,64 @@
 // 4. Context always copies along drawing sequence.
 // 5. Operation is performed over the context (operator +) to move to more local context even if nothing has changed.
 // 6. Render stream gets filled with anonymous calls from objects and contexts on every loop.
+// 7. Complex dependencies between elements (will be hard to put separate).
 
 
-#include <iostream>
-#include <vector>
-#include <string>
+#include <sstream>
 #include <thread>
-#include <memory>
+#include "sprite.hpp"
+#include "scene.hpp"
 
-// basic types
-using sprite_t = char;
+scene_t scene;
 
-
-// context describes current state for object to draw
-struct context_t
+void init()
 {
-    context_t(int pos) : position_(pos) { }
-    
-    friend context_t operator + (const context_t& op1, const context_t& op2)
-    { return context_t(op1.position_ + op2.position_); }
-    
-    int position_;
-};
-
-
-// render system definition
-using render_stream_t = decltype(std::cout);
-
-// learn to apply context
-render_stream_t& operator << (render_stream_t& out, const context_t& x)
-{ out << std::string(x.position_, ' '); return out; }
-
-// learn drawing stuff
-template<typename T>
-void draw(const T& x, render_stream_t& stream, context_t context)
-{ stream << context << x << std::endl; }
-
-
-// common object type
-class object_t {
-public:
-    template<typename T>
-    object_t(const T& x, context_t c) : object_(new model_t_<T>(x)), context_(c)
-    { }
-    
-    object_t(const object_t& x) : object_(x.object_->copy()), context_(x.context_) { }
-    object_t(object_t&&) = default;
-    object_t& operator = (object_t x)
-    { object_ = std::move(x.object_); context_ = x.context_; return *this; }
-    
-    friend void draw(const object_t& x, render_stream_t& stream, context_t parent_context)
-    {
-        context_t local_context = parent_context + x.context_;
-        x.object_->draw_object(stream, local_context);
-    }
-    
-private:
-    struct concept_t_ {
-        virtual ~concept_t_() = default;
-        virtual concept_t_* copy() const = 0;
-        virtual void draw_object(render_stream_t& stream, context_t context) const = 0;
-    };
-    
-    template<typename T>
-    struct model_t_ : concept_t_ {
-        model_t_(const T& v) : data_(v) { }
-        
-        concept_t_* copy() const override
-        { return new model_t_(*this); }
-        
-        void draw_object(render_stream_t& stream, context_t context) const override
-        { draw(data_, stream, context); }
-        
-        T data_;
-    };
-    
-    std::unique_ptr<concept_t_> object_;
-    context_t context_;
-};
-
-
-// common scene type as a collection of objects
-using scene_t = std::vector<object_t>;
-
-// specialization for scene drawing
-void draw(const scene_t& s, render_stream_t& stream, context_t context)
-{ for (const auto& o : s) draw(o, stream, context); }
-
-
-
-int main()
-{
-    render_stream_t& cout_render = std::cout;
-    context_t context{0};
-    
     scene_t mini_scene;
     mini_scene.emplace_back(sprite_t('^'), 2);
     mini_scene.emplace_back(sprite_t('-'), 2);
     
-    scene_t scene;
-    scene.emplace_back(sprite_t('*'), 1);
-    scene.emplace_back(sprite_t('@'), 2);
-    scene.emplace_back(sprite_t('$'), 3);
+    scene.emplace_back(sprite_t('*'), move_to(context_t(1), -7, std::chrono::seconds(8)));
+    scene.emplace_back(sprite_t('@'), move_to(context_t(2), 2, std::chrono::seconds(3)));
+    scene.emplace_back(sprite_t('$'), move_to(context_t(3), -2, std::chrono::seconds(3)));
     scene.emplace_back(sprite_t('#'), 4);
-    scene.emplace_back(sprite_t('%'), 5);
-    scene.emplace_back(mini_scene, 1);
+    scene.emplace_back(sprite_t('%'), move_to(context_t(5), -4, std::chrono::seconds(1)));
+    scene.emplace_back(mini_scene, move_to(context_t(0), 5, std::chrono::seconds(10)));
+    
+//    // pre-baking some scene
+//    // NOTE: does not work because ostringstream can't be copied only moved
+//    // TODO: allow moving
+//    {
+//        scene_t batch_scene;
+//        batch_scene.emplace_back(sprite_t('+'), 10);
+//        batch_scene.emplace_back(sprite_t('|'), 10);
+//        batch_scene.emplace_back(sprite_t('+'), 10);
+//        
+//        std::ostringstream render_batch;
+//        draw(batch_scene, render_batch, {0});
+//        
+//        // ...and adding to the main scene
+//        scene.emplace_back(std::move(render_batch), 0);
+//    }
+}
+
+int main()
+{
+    init();
+    
+    context_t context = move_to(context_t{0}, 10, std::chrono::seconds(20));
+    animation_time_t current_time;
     
     // render loop
+    render_stream_t cout_render(std::cout.rdbuf());
     while (true) {
+        current_time = std::chrono::high_resolution_clock::now();
+
+        animate(context, current_time);
+        animate(scene, current_time);
+
         draw(scene, cout_render, context);
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
     
     return 0;

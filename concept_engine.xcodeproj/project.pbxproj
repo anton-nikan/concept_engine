@@ -25,6 +25,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F47B68B1161F1860005C6F83 /* types.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = types.hpp; sourceTree = "<group>"; };
+		F47B68B3161F1892005C6F83 /* interpolator.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = interpolator.hpp; sourceTree = "<group>"; };
+		F47B68B6161F19EE005C6F83 /* context.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = context.hpp; sourceTree = "<group>"; };
+		F47B68B7161F1A3D005C6F83 /* object.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = object.hpp; sourceTree = "<group>"; };
+		F47B68B8161F1AB2005C6F83 /* scene.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = scene.hpp; sourceTree = "<group>"; };
+		F47B68B9161F1BA1005C6F83 /* sprite.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = sprite.hpp; sourceTree = "<group>"; };
 		F4FE63FB161759C400F42919 /* concept_engine */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = concept_engine; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4FE63FF161759C400F42919 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		F4FE6401161759C400F42919 /* concept_engine.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = concept_engine.1; sourceTree = "<group>"; };
@@ -60,6 +66,12 @@
 		F4FE63FE161759C400F42919 /* concept_engine */ = {
 			isa = PBXGroup;
 			children = (
+				F47B68B1161F1860005C6F83 /* types.hpp */,
+				F47B68B3161F1892005C6F83 /* interpolator.hpp */,
+				F47B68B6161F19EE005C6F83 /* context.hpp */,
+				F47B68B7161F1A3D005C6F83 /* object.hpp */,
+				F47B68B8161F1AB2005C6F83 /* scene.hpp */,
+				F47B68B9161F1BA1005C6F83 /* sprite.hpp */,
 				F4FE63FF161759C400F42919 /* main.cpp */,
 				F4FE6401161759C400F42919 /* concept_engine.1 */,
 			);
@@ -208,6 +220,7 @@
 				F4FE6407161759C400F42919 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
