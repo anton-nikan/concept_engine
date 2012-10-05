@@ -34,7 +34,8 @@ public:
     { object.position_ = move_to(object.position_, pos, duration); return object; }
     
     // learning to apply context
-    friend render_stream_t& operator << (render_stream_t& out, const context_t& x)
+    template<typename S>
+    friend S& operator << (S& out, const context_t& x)
     { out << std::setw(x.position_.value()); return out; }
 };
 

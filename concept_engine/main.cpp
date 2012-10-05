@@ -22,16 +22,20 @@
 #include "sprite.hpp"
 #include "scene.hpp"
 
+
+using render_stream_t = std::ostream;
+
+
 // learning to draw batches
 void draw(const std::ostringstream& in, render_stream_t& out, context_t context)
 { out << context << in.str() << std::endl; }
 
 
-scene_t scene;
+scene_t<render_stream_t> scene;
 
 void init()
 {
-    scene_t mini_scene;
+    scene_t<render_stream_t> mini_scene;
     mini_scene.emplace_back(sprite_t('^'), 2);
     mini_scene.emplace_back(sprite_t('-'), 2);
     
@@ -64,10 +68,10 @@ int main()
     init();
     
     context_t context = move_to(context_t{0}, 10, std::chrono::seconds(20));
-    animation_time_t current_time;
+    std::chrono::time_point<std::chrono::high_resolution_clock> current_time;
     
     // render loop
-    render_stream_t cout_render(std::cout.rdbuf());
+    std::ostream cout_render(std::cout.rdbuf());
     while (true) {
         current_time = std::chrono::high_resolution_clock::now();
 

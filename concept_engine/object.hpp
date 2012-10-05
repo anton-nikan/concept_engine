@@ -13,6 +13,7 @@
 #include "context.hpp"
 
 // common object type
+template<typename S>
 class object_t {
 public:
     template<typename T>
@@ -24,9 +25,9 @@ public:
     object_t& operator = (object_t x)
     { object_ = std::move(x.object_); context_ = x.context_; return *this; }
     
-    friend void draw(const object_t& x, render_stream_t& stream, context_t parent_context) {
+    friend void draw(const object_t& x, S& out, context_t parent_context) {
         context_t local_context = parent_context + x.context_;
-        x.object_->draw_object(stream, local_context);
+        x.object_->draw_object(out, local_context);
     }
     friend void animate(object_t& x, animation_time_t time) {
         animate(x.context_, time);
@@ -37,17 +38,17 @@ private:
     struct concept_t_ {
         virtual ~concept_t_() = default;
         virtual concept_t_* copy() const = 0;
-        virtual void draw_object(render_stream_t& stream, context_t context) const = 0;
+        virtual void draw_object(S& stream, context_t context) const = 0;
         virtual void animate_object(animation_time_t time) = 0;
     };
     
     template<typename T>
     struct model_t_ : concept_t_ {
         model_t_(const T& v) : data_(v) { }
-        concept_t_* copy() const override
+        concept_t_* copy() const
         { return new model_t_(*this); }
         
-        void draw_object(render_stream_t& stream, context_t context) const override
+        void draw_object(S& stream, context_t context) const
         { draw(data_, stream, context); }
         
         virtual void animate_object(animation_time_t time) override

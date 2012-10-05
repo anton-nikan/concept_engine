@@ -15,15 +15,18 @@
 #include "object.hpp"
 
 // common scene type as a collection of objects
-using scene_t = std::vector<object_t>;
+template<typename S>
+using scene_t = std::vector<object_t<S>>;
 
 // specialization for scene drawing
-void draw(const scene_t& s, render_stream_t& stream, context_t context)
+template<typename S>
+void draw(const scene_t<S>& s, S& stream, context_t context)
 {
     for (const auto& o : s) draw(o, stream, context);
 }
 
-void animate(scene_t& s, animation_time_t time)
+template<typename S>
+void animate(scene_t<S>& s, animation_time_t time)
 {
     for (auto& o : s) animate(o, time);
 }

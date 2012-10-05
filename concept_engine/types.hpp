@@ -15,6 +15,5 @@
 
 using coordinate_t = int;
 using animation_time_t = std::chrono::time_point<std::chrono::high_resolution_clock>;
-using render_stream_t = std::ostream;
 
 #endif
