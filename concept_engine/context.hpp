@@ -13,11 +13,14 @@
 #include <iomanip>
 
 // context describes the state for object to draw
-template<typename Transformation, typename Time>
+template<typename Transformation>
 class context_t {
 public:
+    using transformation_type = Transformation;
+    
+public:
     context_t() : transform_{} { }
-    context_t(Transformation t) : transform_{t} { }
+    context_t(transformation_type t) : transform_{t} { }
     
     context_t& operator = (const context_t& v)
     { transform_ = v.transform_; return *this; }
@@ -31,16 +34,16 @@ public:
     { out << x.transform_; return out; }
 
     // specialization for ostream and int
-    friend std::ostream& operator << (std::ostream& out, const context_t<int, Time>& x)
+    friend std::ostream& operator << (std::ostream& out, const context_t<int>& x)
     { out << std::setw(x.transform_); return out; }
     // specialization for ostream and double
-    friend std::ostream& operator << (std::ostream& out, const context_t<double, Time>& x)
+    friend std::ostream& operator << (std::ostream& out, const context_t<double>& x)
     { out << std::setw(static_cast<int>(x.transform_)); return out; }
     
-    const Transformation& get_transformation() const { return transform_; }
+    const transformation_type& get_transformation() const { return transform_; }
     
 private:
-    Transformation transform_;
+    transformation_type transform_;
 };
 
 #endif

@@ -13,10 +13,6 @@
 
 using sprite_t = char;
 
-template<typename Time>
-void animate(sprite_t& s, Time time)
-{ }
-
 // learning to draw stuff
 template<typename Stream, typename Context>
 void draw(const sprite_t& x, Stream& stream, Context context)

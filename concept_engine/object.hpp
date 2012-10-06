@@ -15,17 +15,17 @@
 template<typename Stream, typename Context, typename Time>
 class object_t {
 public:
-    using stream = Stream;
-    using context = Context;
-    using time = Time;
-    using action_t = std::function<bool(Context&, Time)>;
+    using stream_type = Stream;
+    using context_type = Context;
+    using time_type = Time;
+    using action_type = std::function<bool(Context&, Time)>;
     
 public:
     template<typename T>
-    object_t(const T& x) : object_(new model_t_<T>(x)), context_{}, action_{}
+    object_t(T const& x) : object_(new model_t_<T>(x)), context_{}, action_{}
     { }
     template<typename T>
-    object_t(const T& x, Context c) : object_(new model_t_<T>(x)), context_(c), action_{}
+    object_t(T const& x, context_type c) : object_(new model_t_<T>(x)), context_(c), action_{}
     { }
     
     object_t(object_t const& x) : object_(x.object_->copy()), context_(x.context_), action_(x.action_) { }
@@ -33,26 +33,25 @@ public:
     object_t& operator = (object_t x)
     { object_ = std::move(x.object_); context_ = x.context_; action_ = x.action_; return *this; }
     
-    friend void draw(object_t const& x, Stream& out, Context parent_context) {
-        const Context local_context = parent_context + x.context_;
+    friend void draw(object_t const& x, stream_type& out, context_type parent_context) {
+        const context_type local_context = parent_context + x.context_;
         x.object_->draw_object(out, local_context);
     }
-    friend void animate(object_t& x, Time time) {
+    friend void animate(object_t& x, time_type time) {
         if (x.action_) { if (x.action_(x.context_, time)) x.action_ = nullptr; }
         // TODO: animate T data_
     }
-    friend void apply(object_t& x, action_t a) {
+    friend void apply(object_t& x, action_type a) {
         x.action_ = a;
     }
     
-    const Context& get_context() const { return context_; }
+    const context_type& get_context() const { return context_; }
     
 private:
     struct concept_t_ {
         virtual ~concept_t_() = default;
         virtual concept_t_* copy() const = 0;
         virtual void draw_object(Stream& stream, Context context) const = 0;
-        virtual void animate_object(Time time) = 0;
     };
     
     template<typename T>
@@ -61,18 +60,15 @@ private:
         concept_t_* copy() const
         { return new model_t_(*this); }
         
-        void draw_object(Stream& stream, Context context) const /* override - doesn't parse right? */
+        void draw_object(stream_type& stream, context_type context) const /* override - doesn't parse right? */
         { draw(data_, stream, context); }
-        
-        virtual void animate_object(Time time) override
-        { animate(data_, time); }
-        
+                
         T data_;
     };
     
     std::unique_ptr<concept_t_> object_;
-    Context context_;
-    action_t action_;
+    context_type context_;
+    action_type action_;
 };
 
 

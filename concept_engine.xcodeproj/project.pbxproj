@@ -25,6 +25,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F4112D65162089BF00098A6F /* manip.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = manip.hpp; sourceTree = "<group>"; };
 		F47B68B6161F19EE005C6F83 /* context.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = context.hpp; sourceTree = "<group>"; };
 		F47B68B7161F1A3D005C6F83 /* object.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = object.hpp; sourceTree = "<group>"; };
 		F47B68B8161F1AB2005C6F83 /* scene.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = scene.hpp; sourceTree = "<group>"; };
@@ -68,6 +69,7 @@
 				F47B68B7161F1A3D005C6F83 /* object.hpp */,
 				F47B68B8161F1AB2005C6F83 /* scene.hpp */,
 				F47B68B9161F1BA1005C6F83 /* sprite.hpp */,
+				F4112D65162089BF00098A6F /* manip.hpp */,
 				F4FE63FF161759C400F42919 /* main.cpp */,
 				F4FE6401161759C400F42919 /* concept_engine.1 */,
 			);
