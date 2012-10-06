@@ -11,34 +11,36 @@
 
 #include <iostream>
 #include <iomanip>
-#include "interpolator.hpp"
 
 // context describes the state for object to draw
-template<typename Coordinate, typename Time>
+template<typename Transformation, typename Time>
 class context_t {
-    interpolator_t<Coordinate, Time> position_;
-    context_t(interpolator_t<Coordinate, Time> const& v) : position_(v) { }
 public:
-    context_t() : position_{} { }
-    context_t(Coordinate pos) : position_{pos} { }
+    context_t() : transform_{} { }
+    context_t(Transformation t) : transform_{t} { }
     
     context_t& operator = (const context_t& v)
-    { position_ = v.position_; return *this; }
+    { transform_ = v.transform_; return *this; }
     
     friend context_t operator + (const context_t& op1, const context_t& op2)
-    { return context_t(op1.position_ + op2.position_); }
-    
-    friend void animate(context_t& x, Time time)
-    { animate(x.position_, time); }
-    
-    template<typename Duration = typename Time::duration>
-    friend context_t move_to(context_t object, Coordinate pos, Duration duration)
-    { object.position_ = move_to(object.position_, pos, duration); return object; }
+    { return context_t(op1.transform_ + op2.transform_); }
     
     // learning to apply context
     template<typename S>
     friend S& operator << (S& out, const context_t& x)
-    { out << std::setw(x.position_.value()); return out; }
+    { out << x.transform_; return out; }
+
+    // specialization for ostream and int
+    friend std::ostream& operator << (std::ostream& out, const context_t<int, Time>& x)
+    { out << std::setw(x.transform_); return out; }
+    // specialization for ostream and double
+    friend std::ostream& operator << (std::ostream& out, const context_t<double, Time>& x)
+    { out << std::setw(static_cast<int>(x.transform_)); return out; }
+    
+    const Transformation& get_transformation() const { return transform_; }
+    
+private:
+    Transformation transform_;
 };
 
 #endif

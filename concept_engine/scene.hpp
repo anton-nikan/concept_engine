@@ -10,22 +10,21 @@
 #define concept_engine_scene_hpp
 
 #include <vector>
-#include "context.hpp"
 #include "object.hpp"
 
 // common scene type as a collection of objects
-template<typename Stream, typename Context, typename Time>
-using scene_t = std::vector<object_t<Stream, Context, Time>>;
+template<typename Object>
+using scene_t = std::vector<Object>;
 
 // specialization for scene drawing
-template<typename Stream, typename Context, typename Time>
-void draw(const scene_t<Stream, Context, Time>& s, Stream& stream, Context context)
+template<typename Object, typename Stream = typename Object::stream, typename Context = typename Object::context, typename Time = typename Object::time>
+void draw(const scene_t<Object>& s, Stream& stream, Context context)
 {
     for (const auto& o : s) draw(o, stream, context);
 }
 
-template<typename Stream, typename Context, typename Time>
-void animate(scene_t<Stream, Context, Time>& s, Time time)
+template<typename Object, typename Time = typename Object::time>
+void animate(scene_t<Object>& s, Time time)
 {
     for (auto& o : s) animate(o, time);
 }

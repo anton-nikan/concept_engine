@@ -25,7 +25,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		F47B68B3161F1892005C6F83 /* interpolator.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = interpolator.hpp; sourceTree = "<group>"; };
 		F47B68B6161F19EE005C6F83 /* context.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = context.hpp; sourceTree = "<group>"; };
 		F47B68B7161F1A3D005C6F83 /* object.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = object.hpp; sourceTree = "<group>"; };
 		F47B68B8161F1AB2005C6F83 /* scene.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = scene.hpp; sourceTree = "<group>"; };
@@ -65,7 +64,6 @@
 		F4FE63FE161759C400F42919 /* concept_engine */ = {
 			isa = PBXGroup;
 			children = (
-				F47B68B3161F1892005C6F83 /* interpolator.hpp */,
 				F47B68B6161F19EE005C6F83 /* context.hpp */,
 				F47B68B7161F1A3D005C6F83 /* object.hpp */,
 				F47B68B8161F1AB2005C6F83 /* scene.hpp */,

@@ -15,6 +15,15 @@
 template<typename Stream, typename Context, typename Time>
 class object_t {
 public:
+    using stream = Stream;
+    using context = Context;
+    using time = Time;
+    using action_t = std::function<bool(Context&, Time)>;
+    
+public:
+    template<typename T>
+    object_t(const T& x) : object_(new model_t_<T>(x)), context_{}
+    { }
     template<typename T>
     object_t(const T& x, Context c) : object_(new model_t_<T>(x)), context_(c)
     { }
@@ -25,13 +34,18 @@ public:
     { object_ = std::move(x.object_); context_ = x.context_; return *this; }
     
     friend void draw(object_t const& x, Stream& out, Context parent_context) {
-        Context local_context = parent_context + x.context_;
+        const Context local_context = parent_context + x.context_;
         x.object_->draw_object(out, local_context);
     }
     friend void animate(object_t& x, Time time) {
-        animate(x.context_, time);
-        x.object_->animate_object(time);
+        if (x.action_) { if (x.action_(x.context_, time)) x.action_ = nullptr; }
+        // TODO: animate T data_
     }
+    friend void apply(object_t& x, action_t a) {
+        x.action_ = a;
+    }
+    
+    const Context& get_context() const { return context_; }
     
 private:
     struct concept_t_ {
@@ -58,6 +72,7 @@ private:
     
     std::unique_ptr<concept_t_> object_;
     Context context_;
+    action_t action_;
 };
 
 
