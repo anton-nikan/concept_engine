@@ -9,16 +9,18 @@
 #ifndef concept_engine_context_hpp
 #define concept_engine_context_hpp
 
-#include "types.hpp"
+#include <iostream>
+#include <iomanip>
 #include "interpolator.hpp"
 
 // context describes the state for object to draw
+template<typename Coordinate, typename Time>
 class context_t {
-    interpolator_t<coordinate_t> position_;
-    context_t(interpolator_t<coordinate_t> const& v) : position_(v) { }
+    interpolator_t<Coordinate, Time> position_;
+    context_t(interpolator_t<Coordinate, Time> const& v) : position_(v) { }
 public:
     context_t() : position_{} { }
-    context_t(coordinate_t pos) : position_{pos} { }
+    context_t(Coordinate pos) : position_{pos} { }
     
     context_t& operator = (const context_t& v)
     { position_ = v.position_; return *this; }
@@ -26,11 +28,11 @@ public:
     friend context_t operator + (const context_t& op1, const context_t& op2)
     { return context_t(op1.position_ + op2.position_); }
     
-    friend void animate(context_t& x, animation_time_t time)
+    friend void animate(context_t& x, Time time)
     { animate(x.position_, time); }
     
-    template<class Rep, class Period = std::ratio<1>>
-    friend context_t move_to(context_t object, coordinate_t pos, std::chrono::duration<Rep, Period> duration)
+    template<typename Duration = typename Time::duration>
+    friend context_t move_to(context_t object, Coordinate pos, Duration duration)
     { object.position_ = move_to(object.position_, pos, duration); return object; }
     
     // learning to apply context

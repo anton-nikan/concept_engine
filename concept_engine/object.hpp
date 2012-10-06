@@ -10,26 +10,25 @@
 #define concept_engine_object_hpp
 
 #include <memory>
-#include "context.hpp"
 
 // common object type
-template<typename S>
+template<typename Stream, typename Context, typename Time>
 class object_t {
 public:
     template<typename T>
-    object_t(const T& x, context_t c) : object_(new model_t_<T>(x)), context_(c)
+    object_t(const T& x, Context c) : object_(new model_t_<T>(x)), context_(c)
     { }
     
-    object_t(const object_t& x) : object_(x.object_->copy()), context_(x.context_) { }
+    object_t(object_t const& x) : object_(x.object_->copy()), context_(x.context_) { }
     object_t(object_t&& x) = default;
     object_t& operator = (object_t x)
     { object_ = std::move(x.object_); context_ = x.context_; return *this; }
     
-    friend void draw(const object_t& x, S& out, context_t parent_context) {
-        context_t local_context = parent_context + x.context_;
+    friend void draw(object_t const& x, Stream& out, Context parent_context) {
+        Context local_context = parent_context + x.context_;
         x.object_->draw_object(out, local_context);
     }
-    friend void animate(object_t& x, animation_time_t time) {
+    friend void animate(object_t& x, Time time) {
         animate(x.context_, time);
         x.object_->animate_object(time);
     }
@@ -38,27 +37,27 @@ private:
     struct concept_t_ {
         virtual ~concept_t_() = default;
         virtual concept_t_* copy() const = 0;
-        virtual void draw_object(S& stream, context_t context) const = 0;
-        virtual void animate_object(animation_time_t time) = 0;
+        virtual void draw_object(Stream& stream, Context context) const = 0;
+        virtual void animate_object(Time time) = 0;
     };
     
     template<typename T>
     struct model_t_ : concept_t_ {
-        model_t_(const T& v) : data_(v) { }
+        model_t_(T const& v) : data_(v) { }
         concept_t_* copy() const
         { return new model_t_(*this); }
         
-        void draw_object(S& stream, context_t context) const
+        void draw_object(Stream& stream, Context context) const /* override - doesn't parse right? */
         { draw(data_, stream, context); }
         
-        virtual void animate_object(animation_time_t time) override
+        virtual void animate_object(Time time) override
         { animate(data_, time); }
         
         T data_;
     };
     
     std::unique_ptr<concept_t_> object_;
-    context_t context_;
+    Context context_;
 };
 
 

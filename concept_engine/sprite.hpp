@@ -9,17 +9,17 @@
 #ifndef concept_engine_sprite_hpp
 #define concept_engine_sprite_hpp
 
-#include "types.hpp"
 #include "context.hpp"
 
 using sprite_t = char;
 
-void animate(sprite_t& s, animation_time_t time)
+template<typename Time>
+void animate(sprite_t& s, Time time)
 { }
 
 // learning to draw stuff
-template<typename S>
-void draw(const sprite_t& x, S& stream, context_t context)
+template<typename Stream, typename Context>
+void draw(const sprite_t& x, Stream& stream, Context context)
 { stream << context << x << std::endl; }
 
 

@@ -24,27 +24,29 @@
 
 
 using render_stream_t = std::ostream;
+using animation_time_t = std::chrono::time_point<std::chrono::high_resolution_clock>;
+using context = context_t<int, animation_time_t>;
 
 
 // learning to draw batches
-void draw(const std::ostringstream& in, render_stream_t& out, context_t context)
-{ out << context << in.str() << std::endl; }
+void draw(const std::ostringstream& in, render_stream_t& out, context ctxt)
+{ out << ctxt << in.str() << std::endl; }
 
 
-scene_t<render_stream_t> scene;
+scene_t<render_stream_t, context, animation_time_t> scene;
 
 void init()
 {
-    scene_t<render_stream_t> mini_scene;
+    scene_t<render_stream_t, context, animation_time_t> mini_scene;
     mini_scene.emplace_back(sprite_t('^'), 2);
     mini_scene.emplace_back(sprite_t('-'), 2);
     
-    scene.emplace_back(sprite_t('*'), move_to(context_t(1), -7, std::chrono::seconds(8)));
-    scene.emplace_back(sprite_t('@'), move_to(context_t(2), 2, std::chrono::seconds(3)));
-    scene.emplace_back(sprite_t('$'), move_to(context_t(3), -2, std::chrono::seconds(3)));
+    scene.emplace_back(sprite_t('*'), move_to(context(1), -7, std::chrono::seconds(8)));
+    scene.emplace_back(sprite_t('@'), move_to(context(2), 2, std::chrono::seconds(3)));
+    scene.emplace_back(sprite_t('$'), move_to(context(3), -2, std::chrono::seconds(3)));
     scene.emplace_back(sprite_t('#'), 4);
-    scene.emplace_back(sprite_t('%'), move_to(context_t(5), -4, std::chrono::seconds(1)));
-    scene.emplace_back(mini_scene, move_to(context_t(0), 5, std::chrono::seconds(10)));
+    scene.emplace_back(sprite_t('%'), move_to(context(5), -4, std::chrono::seconds(1)));
+    scene.emplace_back(mini_scene, move_to(context(0), 5, std::chrono::seconds(10)));
     
 //    // pre-baking some scene
 //    // NOTE: does not work because ostringstream can't be copied only moved
@@ -67,7 +69,7 @@ int main()
 {
     init();
     
-    context_t context = move_to(context_t{0}, 10, std::chrono::seconds(20));
+    auto cntxt = move_to(context{0}, 10, std::chrono::seconds(20));
     std::chrono::time_point<std::chrono::high_resolution_clock> current_time;
     
     // render loop
@@ -75,10 +77,10 @@ int main()
     while (true) {
         current_time = std::chrono::high_resolution_clock::now();
 
-        animate(context, current_time);
+        animate(cntxt, current_time);
         animate(scene, current_time);
 
-        draw(scene, cout_render, context);
+        draw(scene, cout_render, cntxt);
 
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
