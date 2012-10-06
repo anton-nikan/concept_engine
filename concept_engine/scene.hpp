@@ -10,6 +10,7 @@
 #define concept_engine_scene_hpp
 
 #include <vector>
+#include <array>
 #include "object.hpp"
 
 // common scene type as a collection of objects
@@ -29,5 +30,20 @@ void animate(scene_t<Object>& s, Time time)
     for (auto& o : s) animate(o, time);
 }
 
+
+template<size_t SZ, typename Object>
+using static_scene_t = std::array<Object, SZ>;
+
+template<size_t SZ, typename Object, typename Stream = typename Object::stream, typename Context = typename Object::context, typename Time = typename Object::time>
+void draw(const static_scene_t<SZ, Object>& s, Stream& stream, Context context)
+{
+    for (const auto& o : s) draw(o, stream, context);
+}
+
+template<size_t SZ, typename Object, typename Time = typename Object::time>
+void animate(static_scene_t<SZ, Object>& s, Time time)
+{
+    for (auto& o : s) animate(o, time);
+}
 
 #endif

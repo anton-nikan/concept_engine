@@ -22,16 +22,16 @@ public:
     
 public:
     template<typename T>
-    object_t(const T& x) : object_(new model_t_<T>(x)), context_{}
+    object_t(const T& x) : object_(new model_t_<T>(x)), context_{}, action_{}
     { }
     template<typename T>
-    object_t(const T& x, Context c) : object_(new model_t_<T>(x)), context_(c)
+    object_t(const T& x, Context c) : object_(new model_t_<T>(x)), context_(c), action_{}
     { }
     
-    object_t(object_t const& x) : object_(x.object_->copy()), context_(x.context_) { }
-    object_t(object_t&& x) = default;
+    object_t(object_t const& x) : object_(x.object_->copy()), context_(x.context_), action_(x.action_) { }
+    object_t(object_t&& x) : object_(std::move(x.object_)), context_(std::move(x.context_)), action_(std::move(x.action_)) { }
     object_t& operator = (object_t x)
-    { object_ = std::move(x.object_); context_ = x.context_; return *this; }
+    { object_ = std::move(x.object_); context_ = x.context_; action_ = x.action_; return *this; }
     
     friend void draw(object_t const& x, Stream& out, Context parent_context) {
         const Context local_context = parent_context + x.context_;
