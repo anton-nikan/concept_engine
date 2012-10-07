@@ -39,6 +39,7 @@ scene main_scene;
 
 void init()
 {
+    // static scene initialization
     static_scene<3> static_scn =
     {
         sprite_t('#'),
@@ -47,34 +48,35 @@ void init()
     };
     main_scene.emplace_back(static_scn);
     
+    // just adding stuff
     main_scene.emplace_back(sprite_t('*'), 1);
     main_scene.emplace_back(sprite_t('@'), 2);
     main_scene.emplace_back(sprite_t('$'), 3);
     main_scene.emplace_back(sprite_t('#'), 4);
     main_scene.emplace_back(sprite_t('%'), 5);
 
+    // sub-scenes support
     scene mini_scene;
     mini_scene.emplace_back(sprite_t('^'));
     mini_scene.emplace_back(sprite_t('-'), 2);
-    main_scene.emplace_back(mini_scene);
+    main_scene.emplace_back(std::move(mini_scene));
     
     // synchronous loading:
-    sprite_t loaded_sprite = load("hello.txt").get();
+    sprite_t loaded_sprite = load<sprite_t>("hello.txt").get();
     main_scene.emplace_back(loaded_sprite, 15);
     
     // (possibly) async loading:
-    auto f_sprite1 = load("1.txt");
-    auto f_sprite2 = load("2.txt");
-    auto f_sprite3 = load("3.txt");
-    auto f_sprite4 = load("4.txt");
+    auto f_sprite1 = load<sprite_t>("1.txt");
+    auto f_sprite2 = load<sprite_t>("2.txt");
+    auto f_sprite3 = load<sprite_t>("3.txt");
+    auto f_sprite4 = load<sprite_t>("4.txt");
     main_scene.emplace_back(f_sprite1.get(), 20);
     main_scene.emplace_back(f_sprite2.get(), 20);
     main_scene.emplace_back(f_sprite3.get(), 20);
     main_scene.emplace_back(f_sprite4.get(), 20);
     
-//    // pre-baking some scene
-//    // NOTE: does not work because ostringstream can't be copied only moved
-//    // TODO: allow moving
+    // pre-baking scene
+//    // NOTE: does not work because ostringstream can't be copied, only moved. Need move support in object_t.
 //    {
 //        scene batch_scene;
 //        batch_scene.emplace_back(sprite_t('+'), 10);

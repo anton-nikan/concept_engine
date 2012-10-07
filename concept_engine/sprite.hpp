@@ -19,8 +19,13 @@ template<typename Stream, typename Context>
 void draw(const sprite_t& x, Stream& stream, Context context)
 { stream << context << x << std::endl; }
 
+// missing decl (should come from concepts.hpp)
+template <typename T>
+std::future<T> load(const char* resource_name);
+
 // learning to load sprites
-std::future<sprite_t> load(const char* resource_name)
+template<>
+std::future<sprite_t> load<sprite_t>(const char* resource_name)
 {
     std::promise<sprite_t> promise;
     try {
