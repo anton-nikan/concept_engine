@@ -35,10 +35,10 @@ public:
 
     // specialization for ostream and int
     friend std::ostream& operator << (std::ostream& out, const context_t<int>& x)
-    { out << std::setw(x.transform_); return out; }
+    { out << std::setw(x.transform_ + 1); return out; }
     // specialization for ostream and double
     friend std::ostream& operator << (std::ostream& out, const context_t<double>& x)
-    { out << std::setw(static_cast<int>(x.transform_)); return out; }
+    { out << std::setw(static_cast<int>(x.transform_) + 1); return out; }
     
     const transformation_type& get_transformation() const { return transform_; }
     

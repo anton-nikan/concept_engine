@@ -95,13 +95,13 @@ int main()
     init();
 
     // applying some animations
-    move_to(main_scene[0], 5.0, std::chrono::seconds(2));
-    move_to(main_scene[1], 7.0, std::chrono::seconds(1));
-    move_to(main_scene[2], 3.0, std::chrono::seconds(3));
-    move_to(main_scene[3], 4.0, std::chrono::seconds(9));
-    move_to(main_scene[4], 6.0, std::chrono::seconds(4));
-    move_to(main_scene[5], 30.0, std::chrono::seconds(4));
-    move_to(main_scene[6], 20.0, std::chrono::seconds(1));
+    move_to(main_scene[0], 1.0, std::chrono::seconds(10));
+//    move_to(main_scene[1], 7.0, std::chrono::seconds(1));
+//    move_to(main_scene[2], 3.0, std::chrono::seconds(3));
+//    move_to(main_scene[3], 4.0, std::chrono::seconds(9));
+//    move_to(main_scene[4], 6.0, std::chrono::seconds(4));
+//    move_to(main_scene[5], 30.0, std::chrono::seconds(4));
+//    move_to(main_scene[6], 20.0, std::chrono::seconds(1));
     
     render_context_t cntxt{};
     render_stream_t cout_render(std::cout.rdbuf());
