@@ -11,6 +11,7 @@
 
 #include <future>
 #include "context.hpp"
+#include "concepts.hpp"
 
 using sprite_t = char;
 
@@ -18,10 +19,6 @@ using sprite_t = char;
 template<typename Stream, typename Context>
 void draw(const sprite_t& x, Stream& stream, Context context)
 { stream << context << x << std::endl; }
-
-// missing decl (should come from concepts.hpp)
-template <typename T>
-std::future<T> load(const char* resource_name);
 
 // learning to load sprites
 template<>

@@ -9,7 +9,6 @@
 
 #include <sstream>
 #include <thread>
-//#include "concepts.hpp"
 #include "sprite.hpp"
 #include "scene.hpp"
 #include "manip.hpp"

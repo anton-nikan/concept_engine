@@ -11,6 +11,7 @@
 
 #include "object.hpp"
 #include "context.hpp"
+#include "concepts.hpp"
 
 template<typename Stream, typename Value, typename Time>
 void move_to(object_t<Stream, context_t<Value>, Time>& x, Value to, typename Time::duration duration)

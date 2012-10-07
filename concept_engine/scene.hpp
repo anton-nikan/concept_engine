@@ -12,6 +12,7 @@
 #include <vector>
 #include <array>
 #include "object.hpp"
+#include "concepts.hpp"
 
 // common scene type as a collection of objects
 template<typename Object>

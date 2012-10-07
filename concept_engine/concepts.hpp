@@ -9,30 +9,22 @@
 #ifndef concept_engine_concepts_hpp
 #define concept_engine_concepts_hpp
 
+// drawing concept
 template<typename Object, typename Stream, typename Context>
-void draw(const Object& x, Stream& stream, Context context)
-{
-    static_assert(false, "Specialization not implemented. Implement your own draw() for these types.");
-}
+void draw(const Object& x, Stream& stream, Context context);
 
+// animating concept
 template<typename Object, typename Time>
-void animate(Object& s, Time time)
-{
-    static_assert(false, "Specialization not implemented. Implement your own animate() for these types.");
-}
+void animate(Object& s, Time time);
 
-template<typename Object, typename Action>
-void apply(Object& x, Action a)
-{
-    static_assert(false, "Specialization not implemented. Implement your own apply() for these types.");
-}
+// action application concept
+template<typename Object, typename Context, typename Time, typename Action = std::function<bool(Context&, Time)>>
+void apply(Object& x, Action a);
 
 #include <future>
 
+// future loading concept
 template<typename Type>
-std::future<Type> load(const char* resource_name)
-{
-    static_assert(false, "Specialization not implemented. Implement your own load() for these types.");
-}
+std::future<Type> load(const char* resource_name);
 
 #endif
