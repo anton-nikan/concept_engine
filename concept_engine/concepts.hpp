@@ -9,8 +9,6 @@
 #ifndef concept_engine_concepts_hpp
 #define concept_engine_concepts_hpp
 
-#warning "If you include this file nothing works"
-
 template<typename Object, typename Stream, typename Context>
 void draw(const Object& x, Stream& stream, Context context)
 {

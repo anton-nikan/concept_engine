@@ -7,16 +7,6 @@
 //
 
 
-// Drawbacks:
-// 1. The need to represent the scene as a collection requires add run-time polymorphism to object (virtual function calls).
-// 2. Handle-Body forces to use indirect call (through unique_ptr).
-// 3. Handle-Body requires pointer to implementation (body) so objects can be scattered in memory (while processing is sequential).
-// 4. Context always copies along drawing sequence.
-// 5. Operation is performed over the context (operator +, copy) to move to more local context even if nothing has changed.
-// 6. Render stream gets filled with anonymous calls from objects and contexts on every loop.
-// 7. Complex dependencies between elements (will be hard to put apart).
-
-
 #include <sstream>
 #include <thread>
 //#include "concepts.hpp"
@@ -102,10 +92,8 @@ void init()
 int main()
 {
     init();
-    
-    render_context_t cntxt{};
-    animation_time_t current_time;
-    
+
+    // applying some animations
     move_to(main_scene[0], 5.0, std::chrono::seconds(2));
     move_to(main_scene[1], 7.0, std::chrono::seconds(1));
     move_to(main_scene[2], 3.0, std::chrono::seconds(3));
@@ -114,8 +102,11 @@ int main()
     move_to(main_scene[5], 30.0, std::chrono::seconds(4));
     move_to(main_scene[6], 20.0, std::chrono::seconds(1));
     
+    render_context_t cntxt{};
+    render_stream_t cout_render(std::cout.rdbuf());
+    animation_time_t current_time{};
+
     // render loop
-    std::ostream cout_render(std::cout.rdbuf());
     while (true) {
         current_time = animation_time_t::clock::now();
 

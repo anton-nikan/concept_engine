@@ -40,7 +40,6 @@ public:
     }
     friend void animate(object_t& x, time_type time) {
         if (x.action_) { if (x.action_(x.context_, time)) x.action_ = nullptr; }
-        // TODO: animate T data_
     }
     friend void apply(object_t& x, action_type a) {
         x.action_ = a;
