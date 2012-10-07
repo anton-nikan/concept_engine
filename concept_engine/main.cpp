@@ -19,6 +19,7 @@
 
 #include <sstream>
 #include <thread>
+//#include "concepts.hpp"
 #include "sprite.hpp"
 #include "scene.hpp"
 #include "manip.hpp"
@@ -54,24 +55,38 @@ void init()
         sprite_t('#'),
         sprite_t('#')
     };
-    
-    scene mini_scene;
-    mini_scene.emplace_back(sprite_t('^'));
-    mini_scene.emplace_back(sprite_t('-'), 2);
-    
     main_scene.emplace_back(static_scn);
+    
     main_scene.emplace_back(sprite_t('*'), 1);
     main_scene.emplace_back(sprite_t('@'), 2);
     main_scene.emplace_back(sprite_t('$'), 3);
     main_scene.emplace_back(sprite_t('#'), 4);
     main_scene.emplace_back(sprite_t('%'), 5);
+
+    scene mini_scene;
+    mini_scene.emplace_back(sprite_t('^'));
+    mini_scene.emplace_back(sprite_t('-'), 2);
     main_scene.emplace_back(mini_scene);
+    
+    // synchronous loading:
+    sprite_t loaded_sprite = load("hello.txt").get();
+    main_scene.emplace_back(loaded_sprite, 15);
+    
+    // (possibly) async loading:
+    auto f_sprite1 = load("1.txt");
+    auto f_sprite2 = load("2.txt");
+    auto f_sprite3 = load("3.txt");
+    auto f_sprite4 = load("4.txt");
+    main_scene.emplace_back(f_sprite1.get(), 20);
+    main_scene.emplace_back(f_sprite2.get(), 20);
+    main_scene.emplace_back(f_sprite3.get(), 20);
+    main_scene.emplace_back(f_sprite4.get(), 20);
     
 //    // pre-baking some scene
 //    // NOTE: does not work because ostringstream can't be copied only moved
 //    // TODO: allow moving
 //    {
-//        scene_t batch_scene;
+//        scene batch_scene;
 //        batch_scene.emplace_back(sprite_t('+'), 10);
 //        batch_scene.emplace_back(sprite_t('|'), 10);
 //        batch_scene.emplace_back(sprite_t('+'), 10);

@@ -9,6 +9,7 @@
 #ifndef concept_engine_sprite_hpp
 #define concept_engine_sprite_hpp
 
+#include <future>
 #include "context.hpp"
 
 using sprite_t = char;
@@ -18,5 +19,16 @@ template<typename Stream, typename Context>
 void draw(const sprite_t& x, Stream& stream, Context context)
 { stream << context << x << std::endl; }
 
+// learning to load sprites
+std::future<sprite_t> load(const char* resource_name)
+{
+    std::promise<sprite_t> promise;
+    try {
+        promise.set_value(resource_name[0]);         // don't forget to move when actually loading something
+    } catch (...) {
+        promise.set_exception(std::current_exception());
+    }
+    return promise.get_future();
+}
 
 #endif

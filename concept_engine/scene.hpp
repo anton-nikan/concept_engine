@@ -18,7 +18,7 @@ template<typename Object>
 using scene_t = std::vector<Object>;
 
 // specialization for scene drawing
-template<typename Object, typename Stream = typename Object::stream_type, typename Context = typename Object::context_type, typename Time = typename Object::time_type>
+template<typename Object, typename Stream = typename Object::stream_type, typename Context = typename Object::context_type>
 void draw(const scene_t<Object>& s, Stream& stream, Context context)
 {
     for (const auto& o : s) draw(o, stream, context);
@@ -34,7 +34,7 @@ void animate(scene_t<Object>& s, Time time)
 template<size_t SZ, typename Object>
 using static_scene_t = std::array<Object, SZ>;
 
-template<size_t SZ, typename Object, typename Stream = typename Object::stream_type, typename Context = typename Object::context_type, typename Time = typename Object::time_type>
+template<size_t SZ, typename Object, typename Stream = typename Object::stream_type, typename Context = typename Object::context_type>
 void draw(const static_scene_t<SZ, Object>& s, Stream& stream, Context context)
 {
     for (const auto& o : s) draw(o, stream, context);

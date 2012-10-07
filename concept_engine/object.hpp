@@ -10,6 +10,7 @@
 #define concept_engine_object_hpp
 
 #include <memory>
+#include <utility>
 
 // common object type
 template<typename Stream, typename Context, typename Time>
@@ -57,9 +58,9 @@ private:
     template<typename T>
     struct model_t_ : concept_t_ {
         model_t_(T const& v) : data_(v) { }
+
         concept_t_* copy() const
         { return new model_t_(*this); }
-        
         void draw_object(stream_type& stream, context_type context) const /* override - doesn't parse right? */
         { draw(data_, stream, context); }
                 
