@@ -9,9 +9,10 @@
 
 #include <sstream>
 #include <thread>
-#include "sprite.hpp"
 #include "scene.hpp"
 #include "manip.hpp"
+#include "sprite.hpp"
+#include "loading.hpp"
 
 
 // === These are engine-dependent specializations ===
@@ -46,7 +47,7 @@ void init()
         sprite_t('#')
     };
     main_scene.emplace_back(static_scn);
-    
+
     // just adding stuff
     main_scene.emplace_back(sprite_t('*'), 1);
     main_scene.emplace_back(sprite_t('@'), 2);
@@ -59,21 +60,25 @@ void init()
     mini_scene.emplace_back(sprite_t('^'));
     mini_scene.emplace_back(sprite_t('^'), 2);
     main_scene.emplace_back(std::move(mini_scene));
-    
+
+    // normal creation of object:
+    sprite_t sprite1("image.png");
+    main_scene.emplace_back(std::move(sprite1), 0);
+
     // synchronous loading:
     sprite_t loaded_sprite = load<sprite_t>("hello.txt").get();
     main_scene.emplace_back(loaded_sprite, 15);
-    
+
     // (possibly) async loading:
     auto f_sprite1 = load<sprite_t>("1.txt");
-    auto f_sprite2 = load<sprite_t>("2.txt");
+    auto f_sprite2 = load<sprite_t>("2.txt", 10, 15);
     auto f_sprite3 = load<sprite_t>("3.txt");
     auto f_sprite4 = load<sprite_t>("4.txt");
     main_scene.emplace_back(f_sprite1.get(), 20);
     main_scene.emplace_back(f_sprite2.get(), 20);
     main_scene.emplace_back(f_sprite3.get(), 20);
     main_scene.emplace_back(f_sprite4.get(), 20);
-    
+
     // pre-baking scene
 //    // NOTE: does not work because ostringstream can't be copied, only moved. Need move support in object_t.
 //    {
@@ -94,15 +99,17 @@ int main()
 {
     init();
 
+    using std::chrono::seconds;
+
     // applying some animations
-    move_to(main_scene[0], 1.0, std::chrono::seconds(10));
-    move_to(main_scene[1], 7.0, std::chrono::seconds(1));
-    move_to(main_scene[2], 3.0, std::chrono::seconds(3));
-    move_to(main_scene[3], 4.0, std::chrono::seconds(9));
-    move_to(main_scene[4], 6.0, std::chrono::seconds(4));
-    move_to(main_scene[5], 30.0, std::chrono::seconds(4));
-    move_to(main_scene[6], 20.0, std::chrono::seconds(1)).then([]{ move_to(main_scene[6], 0.0); });
-    
+    move_to(main_scene[0], 1.0, seconds(10));
+    move_to(main_scene[1], 7.0, seconds(1));
+    move_to(main_scene[2], 3.0, seconds(3));
+    move_to(main_scene[3], 4.0, seconds(9));
+    move_to(main_scene[4], 6.0, seconds(4));
+    move_to(main_scene[5], 30.0, seconds(4));
+    move_to(main_scene[6], 20.0, seconds(1)).then([]{ move_to(main_scene[6], 0.0); });
+
     render_context_t cntxt{};
     render_stream_t cout_render(std::cout.rdbuf());
     animation_time_t current_time{};
@@ -113,9 +120,10 @@ int main()
 
         animate(main_scene, current_time);
         draw(main_scene, cout_render, cntxt);
+        std::cout << "\n\n\n\n\n";
 
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
-    
+
     return 0;
 }

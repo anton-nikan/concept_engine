@@ -13,6 +13,7 @@ Drawbacks:
 TODO:
 ----
 - moving stringstream as batch should be possible / object_t does not support moving now.
+- (ref to previous) all objects are copied on initialization to object_t (should support moving).
 - action should be applied to both context and data in animate() / polymorphism doesn't allow to get to the data.
 - transformation type is deeper containing details: position, rotation, scale / manipulation now happens on transformation_t directly.
 - namespacing.
@@ -27,6 +28,7 @@ calling actions, nulling them, etc.) so then() considered dangerous.
 + immediate move_to version.
 + would be cool to chain manipulations (then()? or chain semantics?)
 -> then() idiom for animated and immediate move_to manipulator (has problems with actions applied during animation).
++ loading concept based on normal construction and move (with variadic template).
 
 
 7.10.2012:

@@ -10,27 +10,33 @@
 #define concept_engine_sprite_hpp
 
 #include <future>
-#include "context.hpp"
 #include "concepts.hpp"
+#include "context.hpp"
 
-using sprite_t = char;
-
-// learning to draw stuff
-template<typename Stream, typename Context>
-void draw(const sprite_t& x, Stream& stream, Context context)
-{ stream << context << x << std::endl; }
-
-// learning to load sprites
-template<>
-std::future<sprite_t> load<sprite_t>(const char* resource_name)
+class sprite_t
 {
-    std::promise<sprite_t> promise;
-    try {
-        promise.set_value(resource_name[0]);         // don't forget to move when actually loading something
-    } catch (...) {
-        promise.set_exception(std::current_exception());
+public:
+    sprite_t(char x) : data_(x), width_(1), height_(1) { }
+    sprite_t(char x, int width, int height) : data_(x), width_(width), height_(height) { }
+    sprite_t(const char* file_name) : data_(file_name[0]), width_(1), height_(1) { }
+    sprite_t(const char* file_name, int width, int height) : data_(file_name[0]), width_(width), height_(height) { }
+
+    sprite_t(const sprite_t& x) : data_(x.data_), width_(x.width_), height_(x.height_) { std::cout << "copy" << std::endl; }
+    sprite_t(sprite_t&&) = default;
+    sprite_t& operator = (sprite_t x) {
+        data_ = std::move(x.data_);
+        width_ = x.width_;
+        height_ = x.height_;
+        return *this;
     }
-    return promise.get_future();
-}
+    
+    template<typename Stream, typename Context>
+    friend void draw(const sprite_t& x, Stream& stream, Context context)
+    { stream << context << x.data_ << std::endl; }
+    
+private:
+    char data_;
+    int width_, height_;
+};
 
 #endif

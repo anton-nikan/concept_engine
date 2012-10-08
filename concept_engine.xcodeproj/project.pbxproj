@@ -30,6 +30,7 @@
 		F47B68B9161F1BA1005C6F83 /* sprite.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = sprite.hpp; sourceTree = "<group>"; };
 		F47C5A011621A48000F4EF72 /* concepts.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = concepts.hpp; sourceTree = "<group>"; };
 		F47C5A031621B38000F4EF72 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = SOURCE_ROOT; };
+		F48CD820162390230095B864 /* loading.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = loading.hpp; sourceTree = "<group>"; };
 		F4FE63FB161759C400F42919 /* concept_engine */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = concept_engine; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4FE63FF161759C400F42919 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -69,8 +70,9 @@
 				F47B68B6161F19EE005C6F83 /* context.hpp */,
 				F47B68B7161F1A3D005C6F83 /* object.hpp */,
 				F47B68B8161F1AB2005C6F83 /* scene.hpp */,
-				F47B68B9161F1BA1005C6F83 /* sprite.hpp */,
+				F48CD820162390230095B864 /* loading.hpp */,
 				F4112D65162089BF00098A6F /* manip.hpp */,
+				F47B68B9161F1BA1005C6F83 /* sprite.hpp */,
 				F4FE63FF161759C400F42919 /* main.cpp */,
 			);
 			path = concept_engine;

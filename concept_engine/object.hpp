@@ -34,8 +34,8 @@ public:
     object_t(object_t&& x) : object_(std::move(x.object_)), context_(std::move(x.context_)), action_(std::move(x.action_)) { }
     object_t& operator = (object_t x) {
         object_ = std::move(x.object_);
-        context_ = x.context_;
-        action_ = x.action_;
+        context_ = std::move(x.context_);
+        action_ = std::move(x.action_);
         return *this;
     }
     

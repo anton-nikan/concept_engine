@@ -13,7 +13,7 @@
 template<typename Object, typename Stream, typename Context>
 void draw(const Object& x, Stream& stream, Context context);
 
-// animating concept
+// animation concept
 template<typename Object, typename Time>
 void animate(Object& s, Time time);
 
@@ -24,7 +24,7 @@ void apply(Object& x, Action a);
 #include <future>
 
 // future loading concept
-template<typename Type>
-std::future<Type> load(const char* resource_name);
+template<typename Type, typename ...Args>
+std::future<Type> load(Args... args);
 
 #endif
