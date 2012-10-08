@@ -57,7 +57,7 @@ void init()
     // sub-scenes support
     scene mini_scene;
     mini_scene.emplace_back(sprite_t('^'));
-    mini_scene.emplace_back(sprite_t('-'), 2);
+    mini_scene.emplace_back(sprite_t('^'), 2);
     main_scene.emplace_back(std::move(mini_scene));
     
     // synchronous loading:
@@ -101,7 +101,7 @@ int main()
     move_to(main_scene[3], 4.0, std::chrono::seconds(9));
     move_to(main_scene[4], 6.0, std::chrono::seconds(4));
     move_to(main_scene[5], 30.0, std::chrono::seconds(4));
-    move_to(main_scene[6], 20.0, std::chrono::seconds(1));
+    move_to(main_scene[6], 20.0, std::chrono::seconds(1)).then([]{ move_to(main_scene[6], 0.0); });
     
     render_context_t cntxt{};
     render_stream_t cout_render(std::cout.rdbuf());

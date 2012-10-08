@@ -32,21 +32,29 @@ public:
     
     object_t(object_t const& x) : object_(x.object_->copy()), context_(x.context_), action_(x.action_) { }
     object_t(object_t&& x) : object_(std::move(x.object_)), context_(std::move(x.context_)), action_(std::move(x.action_)) { }
-    object_t& operator = (object_t x)
-    { object_ = std::move(x.object_); context_ = x.context_; action_ = x.action_; return *this; }
+    object_t& operator = (object_t x) {
+        object_ = std::move(x.object_);
+        context_ = x.context_;
+        action_ = x.action_;
+        return *this;
+    }
     
     friend void draw(object_t const& x, stream_type& out, context_type parent_context) {
         const context_type local_context = parent_context + x.context_;
         x.object_->draw_object(out, local_context);
     }
     friend void animate(object_t& x, time_type time) {
-        if (x.action_) { if (x.action_(x.context_, time)) x.action_ = nullptr; }
+        if (x.action_) {
+            if (x.action_(x.context_, time))
+                x.action_ = nullptr;
+        }
     }
     friend void apply(object_t& x, action_type a) {
         x.action_ = a;
     }
-    
+
     const context_type& get_context() const { return context_; }
+    void set_context(const context_type& ctx) { context_ = ctx; }
     
 private:
     struct concept_t_ {

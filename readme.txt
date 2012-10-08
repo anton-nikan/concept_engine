@@ -17,8 +17,16 @@ TODO:
 - transformation type is deeper containing details: position, rotation, scale / manipulation now happens on transformation_t directly.
 - namespacing.
 - move_to has a problem with implicit conversion (when using double it can't accept an int as 'to' parameter).
-- would be cool to chain manipulations (then()? or chain semantics?)
 - rendering concept is now operator << which probably is not good.
+- then() idiom for manipulators has a problem of actions changed (or applied) during animation (i.e. going through loop, 
+calling actions, nulling them, etc.) so then() considered dangerous.
+
+
+8.10.2012:
+---------
++ immediate move_to version.
++ would be cool to chain manipulations (then()? or chain semantics?)
+-> then() idiom for animated and immediate move_to manipulator (has problems with actions applied during animation).
 
 
 7.10.2012:
