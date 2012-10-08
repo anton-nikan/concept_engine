@@ -61,9 +61,9 @@ void init()
     mini_scene.emplace_back(sprite_t('^'), 2);
     main_scene.emplace_back(std::move(mini_scene));
 
-    // normal creation of object:
+    // normal object creation:
     sprite_t sprite1("image.png");
-    main_scene.emplace_back(std::move(sprite1), 0);
+    main_scene.emplace_back(std::move(sprite1));
 
     // synchronous loading:
     sprite_t loaded_sprite = load<sprite_t>("hello.txt").get();
@@ -71,7 +71,7 @@ void init()
 
     // (possibly) async loading:
     auto f_sprite1 = load<sprite_t>("1.txt");
-    auto f_sprite2 = load<sprite_t>("2.txt", 10, 15);
+    auto f_sprite2 = load<sprite_t>("2.txt", 10, 15);   // with var parameters
     auto f_sprite3 = load<sprite_t>("3.txt");
     auto f_sprite4 = load<sprite_t>("4.txt");
     main_scene.emplace_back(f_sprite1.get(), 20);
@@ -91,7 +91,7 @@ void init()
 //        draw(batch_scene, render_batch, {});
 //        
 //        // ...and adding to the main scene
-//        main_scene.emplace_back(std::move(render_batch), 0);
+//        main_scene.emplace_back(std::move(render_batch));
 //    }
 }
 

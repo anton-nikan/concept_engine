@@ -21,7 +21,7 @@ public:
     sprite_t(const char* file_name) : data_(file_name[0]), width_(1), height_(1) { }
     sprite_t(const char* file_name, int width, int height) : data_(file_name[0]), width_(width), height_(height) { }
 
-    sprite_t(const sprite_t& x) : data_(x.data_), width_(x.width_), height_(x.height_) { std::cout << "copy" << std::endl; }
+    sprite_t(const sprite_t& x) : data_(x.data_), width_(x.width_), height_(x.height_) { }
     sprite_t(sprite_t&&) = default;
     sprite_t& operator = (sprite_t x) {
         data_ = std::move(x.data_);
