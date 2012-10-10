@@ -22,7 +22,6 @@ public:
     using time_type = Time;
     using action_type = std::function<bool(Context&, Time)>;
     
-public:
     template<typename T>
     object_t(T const& x) : object_(new model_t_<T>(x)), context_{}, action_{}
     { }

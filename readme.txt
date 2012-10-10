@@ -23,6 +23,15 @@ TODO:
 - then() idiom for manipulators has a problem of actions changed (or applied) during animation (i.e. going through loop, 
 calling actions, nulling them, etc.) so then() considered dangerous.
 - loading should be async (beware: objects should be okay with loading on a different thread).
+- there might be a mistake in the math of move_to animation.
+
+
+10.10.2012:
+----------
++ current loading implementation (as initialization of object) breaks the rule of loading to be deferred in general 
+(for cases where loading is done from the network and/or asynchronously [NaCl]).
+-> ambiguous initialization for sprite by resource name eliminated: sticking to the rule that loading result is always a future.
+-> load() specializations for sprite provided.
 
 
 8.10.2012:

@@ -9,10 +9,10 @@
 
 #include <sstream>
 #include <thread>
+#include "loading.hpp"
 #include "scene.hpp"
 #include "manip.hpp"
 #include "sprite.hpp"
-#include "loading.hpp"
 
 
 // === These are engine-dependent specializations ===
@@ -61,9 +61,9 @@ void init()
     mini_scene.emplace_back(sprite_t('^'), 2);
     main_scene.emplace_back(std::move(mini_scene));
 
-    // normal object creation:
-    sprite_t sprite1("image.png");
-    main_scene.emplace_back(std::move(sprite1));
+//    // normal object creation:      - loading should always be assumed to be deferred, so no more.
+//    sprite_t sprite1("image.png");
+//    main_scene.emplace_back(std::move(sprite1));
 
     // synchronous loading:
     sprite_t loaded_sprite = load<sprite_t>("hello.txt").get();

@@ -18,7 +18,7 @@ class immediate_then_t
 {
 public:
     using func_type = std::function<void()>;
-public:
+
     void then(func_type func)
     { func(); }
 };
@@ -35,7 +35,7 @@ class deferred_then_t
 {
 public:
     using func_type = std::function<void()>;
-public:
+
     deferred_then_t() : callback_{} { }
     
     void then(func_type func)

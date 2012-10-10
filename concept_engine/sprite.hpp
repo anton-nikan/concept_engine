@@ -16,10 +16,10 @@
 class sprite_t
 {
 public:
-    sprite_t(char x) : data_(x), width_(1), height_(1) { }
-    sprite_t(char x, int width, int height) : data_(x), width_(width), height_(height) { }
-    sprite_t(const char* file_name) : data_(file_name[0]), width_(1), height_(1) { }
-    sprite_t(const char* file_name, int width, int height) : data_(file_name[0]), width_(width), height_(height) { }
+    using data_type = char;
+
+    sprite_t(data_type x) : data_(x), width_(1), height_(1) { }
+    sprite_t(data_type x, int width, int height) : data_(x), width_(width), height_(height) { }
 
     sprite_t(const sprite_t& x) : data_(x.data_), width_(x.width_), height_(x.height_) { }
     sprite_t(sprite_t&&) = default;
@@ -35,8 +35,37 @@ public:
     { stream << context << x.data_ << std::endl; }
     
 private:
-    char data_;
+    data_type data_;
     int width_, height_;
 };
+
+
+// huh, no partial function template specialization?
+
+template<>
+std::future<sprite_t> load<sprite_t>(const char* file_name)
+{
+    std::promise<sprite_t> promise;
+    try {
+        sprite_t obj(file_name[0]);    // fake loading so far
+        promise.set_value(std::move(obj));
+    } catch (...) {
+        promise.set_exception(std::current_exception());
+    }
+    return promise.get_future();
+}
+
+template<>
+std::future<sprite_t> load<sprite_t>(const char* file_name, int width, int height)
+{
+    std::promise<sprite_t> promise;
+    try {
+        sprite_t obj(file_name[0], width, height);    // fake loading so far
+        promise.set_value(std::move(obj));
+    } catch (...) {
+        promise.set_exception(std::current_exception());
+    }
+    return promise.get_future();
+}
 
 #endif

@@ -18,7 +18,6 @@ class context_t {
 public:
     using transformation_type = Transformation;
     
-public:
     context_t() : transform_{} { }
     context_t(transformation_type t) : transform_{t} { }
     
