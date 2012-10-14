@@ -39,12 +39,12 @@ private:
     int width_, height_;
 };
 
-template<> template<typename ...Args>
-std::future<sprite_t> resource<sprite_t>::load(Args... args)
+template<> template<>
+std::future<sprite_t> resource<sprite_t>::load(const char* file_name, int width, int height)
 {
     std::promise<sprite_t> promise;
     try {
-        sprite_t obj(args...);
+        sprite_t obj(file_name[0], width, height);
         promise.set_value(std::move(obj));
     } catch (...) {
         promise.set_exception(std::current_exception());
