@@ -39,15 +39,12 @@ private:
     int width_, height_;
 };
 
-
-// huh, no partial function template specialization?
-
-template<>
-std::future<sprite_t> load<sprite_t>(const char* file_name)
+template<> template<typename ...Args>
+std::future<sprite_t> resource<sprite_t>::load(Args... args)
 {
     std::promise<sprite_t> promise;
     try {
-        sprite_t obj(file_name[0]);    // fake loading so far
+        sprite_t obj(args...);
         promise.set_value(std::move(obj));
     } catch (...) {
         promise.set_exception(std::current_exception());
@@ -55,17 +52,10 @@ std::future<sprite_t> load<sprite_t>(const char* file_name)
     return promise.get_future();
 }
 
-template<>
-std::future<sprite_t> load<sprite_t>(const char* file_name, int width, int height)
+template<> template<>
+std::future<sprite_t> resource<sprite_t>::load(const char* file_name)
 {
-    std::promise<sprite_t> promise;
-    try {
-        sprite_t obj(file_name[0], width, height);    // fake loading so far
-        promise.set_value(std::move(obj));
-    } catch (...) {
-        promise.set_exception(std::current_exception());
-    }
-    return promise.get_future();
+    return resource<sprite_t>::load(file_name, 1, 1);
 }
 
 #endif

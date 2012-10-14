@@ -12,17 +12,27 @@
 #include <future>
 #include "concepts.hpp"
 
+template<typename T>
+struct resource
+{
+    template<typename ...Args>
+    static std::future<T> load(Args... args)
+    {
+        std::promise<T> promise;
+        try {
+            T obj(args...);
+            promise.set_value(std::move(obj));
+        } catch (...) {
+            promise.set_exception(std::current_exception());
+        }
+        return promise.get_future();
+    }
+};
+
 template<typename T, typename ...Args>
 std::future<T> load(Args... args)
 {
-    std::promise<T> promise;
-    try {
-        T obj(args...);
-        promise.set_value(std::move(obj));
-    } catch (...) {
-        promise.set_exception(std::current_exception());
-    }
-    return promise.get_future();
+    return resource<T>::load(args...);
 }
 
 #endif
