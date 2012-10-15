@@ -26,6 +26,12 @@ calling actions, nulling them, etc.) so then() considered dangerous.
 - there might be a mistake in the math of move_to animation.
 
 
+15.10.2010:
+----------
++ partial specialization for load function using proxy class.
+-> now load for specific type can be template-specialized (though non-obvious resource<> class has to be used).
+
+
 10.10.2012:
 ----------
 + current loading implementation (as initialization of object) breaks the rule of loading to be deferred in general 
