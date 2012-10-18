@@ -1,3 +1,17 @@
+Concept Engine
+Copyright (c) 2012 Anton Nikolaienko.
+
+
+Intro:
+-----
+This project is my playground for value semantics and Modern C++ programming. Greatly inspired by Sean Parent's
+talk on value semantics and concept-based polymorphism (http://www.youtube.com/watch?v=_BpMYeUFXv8) and many other
+articles on C++11 concepts.
+
+The objective is to apply methods described by Sean Parent to game development needs by creation of easy to use,
+safe sprite rendering framework. Althought the current code is just a simulation it contains some major concepts used
+in 2d game programming and imply more practical implementation. Also, some analysis goes along with experiments that
+surfaces future objectives and features.
 
 
 Drawbacks:
