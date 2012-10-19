@@ -40,7 +40,14 @@ calling actions, nulling them, etc.) so then() considered dangerous.
 - there might be a mistake in the math of move_to animation.
 
 
-15.10.2010:
+
+20.10.2012:
+----------
++ use async processing for animate (pillar II by Callahan/Sutter: concurrent collections).
+-> async() for animation on scene (that was easy...hope it's right).
+
+
+15.10.2012:
 ----------
 + partial specialization for load function using proxy class.
 -> now load for specific type can be template-specialized (though non-obvious resource<> class has to be used).
