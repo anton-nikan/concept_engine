@@ -5,8 +5,8 @@ Copyright (c) 2012 Anton Nikolaienko.
 Intro:
 -----
 This project is my playground for value semantics and Modern C++ programming. Greatly inspired by Sean Parent's
-talk on value semantics and concept-based polymorphism (http://www.youtube.com/watch?v=_BpMYeUFXv8) and many other
-articles on C++11 concepts.
+talk "Value semantics and concept-based polymorphism" (http://www.youtube.com/watch?v=_BpMYeUFXv8) and many other
+articles on C++11 techniques.
 
 The objective is to apply methods described by Sean Parent to game development needs by creation of easy to use,
 safe sprite rendering framework. Althought the current code is just a simulation it contains some major concepts used
@@ -44,7 +44,7 @@ calling actions, nulling them, etc.) so then() considered dangerous.
 20.10.2012:
 ----------
 + use async processing for animate (pillar II by Callahan/Sutter: concurrent collections).
--> async() for animation on scene (that was easy...hope it's right).
+-> async() for animation on scene (that was suspiciously easy).
 
 
 15.10.2012:

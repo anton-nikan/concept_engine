@@ -23,7 +23,7 @@ using scene_t = std::vector<Object>;
 template<typename Object, typename Stream = typename Object::stream_type, typename Context = typename Object::context_type>
 void draw(const scene_t<Object>& s, Stream& stream, Context context)
 {
-    for (const auto& o : s) draw(o, stream, context);
+    for (const auto& o: s) draw(o, stream, context);
 }
 
 template<typename Object, typename Time = typename Object::time_type>
